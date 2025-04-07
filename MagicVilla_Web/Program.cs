@@ -1,3 +1,6 @@
+global using MagicVilla_ClassLibrary.Utility;
+global using MagicVilla_Web.Services.IServices;
+global using Newtonsoft.Json;
 global using AutoMapper;
 global using MagicVilla_ClassLibrary.Models;
 global using MagicVilla_ClassLibrary.Models.Dto;
