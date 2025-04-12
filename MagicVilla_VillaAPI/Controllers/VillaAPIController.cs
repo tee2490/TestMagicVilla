@@ -3,6 +3,7 @@ using MagicVilla_VillaAPI.Repository.IRepostiory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using System.Net;
 
 namespace MagicVilla_VillaAPI.Controllers
@@ -28,7 +29,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ResponseCache(CacheProfileName = "Default30")]
-        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery] int? occupancy)
+        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery] int? occupancy, [FromQuery] string? search)
         {
 
             try
@@ -43,6 +44,11 @@ namespace MagicVilla_VillaAPI.Controllers
                 else
                 {
                     villaList = await _dbVilla.GetAllAsync();
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    villaList = villaList.Where(u => u.Name.Contains(search, StringComparison.OrdinalIgnoreCase));
                 }
 
                 _response.Result = _mapper.Map<List<VillaDTO>>(villaList);
