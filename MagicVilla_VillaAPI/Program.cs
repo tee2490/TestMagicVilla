@@ -16,6 +16,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+       .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddControllers(option =>
 {
     option.CacheProfiles.Add("Default30",
@@ -77,10 +81,6 @@ builder.Services.AddAuthentication(x =>
         };
     });
 #endregion Token
-
-builder.Services.AddDbContext<ApplicationDbContext>();
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-       .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 
