@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -53,6 +54,13 @@ namespace MagicVilla_Web.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            var roleList = new List<SelectListItem>()
+               {
+                     new SelectListItem{Text=SD.Admin,Value=SD.Admin},
+                   new SelectListItem{Text=SD.Customer,Value=SD.Customer},
+               };
+            ViewBag.RoleList = roleList;
+
             return View();
         }
 
@@ -66,6 +74,12 @@ namespace MagicVilla_Web.Controllers
             {
                 return RedirectToAction("Login");
             }
+            var roleList = new List<SelectListItem>()
+               {
+                     new SelectListItem{Text=SD.Admin,Value=SD.Admin},
+                   new SelectListItem{Text=SD.Customer,Value=SD.Customer},
+               };
+            ViewBag.RoleList = roleList;
             return View();
         }
 
