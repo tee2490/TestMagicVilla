@@ -48,8 +48,7 @@ namespace MagicVilla_VillaAPI.Repository
             {
                 return new TokenDTO()
                 {
-                    Token = "",
-                    User = null
+                    AccessToken = "",
                 };
             }
 
@@ -71,12 +70,11 @@ namespace MagicVilla_VillaAPI.Repository
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            TokenDTO loginResponseDTO = new TokenDTO()
+            TokenDTO tokenDto = new TokenDTO()
             {
-                Token = tokenHandler.WriteToken(token),
-                User = _mapper.Map<UserDTO>(user),
+                AccessToken = tokenHandler.WriteToken(token),
             };
-            return loginResponseDTO;
+            return tokenDto;
         }
 
         public async Task<UserDTO> Register(RegisterationRequestDTO registerationRequestDTO)
