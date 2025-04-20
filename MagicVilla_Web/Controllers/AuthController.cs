@@ -10,9 +10,12 @@ namespace MagicVilla_Web.Controllers
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
-        public AuthController(IAuthService authService)
+        private readonly ITokenProvider _tokenProvider;
+
+        public AuthController(IAuthService authService, ITokenProvider tokenProvider)
         {
             _authService = authService;
+            _tokenProvider = tokenProvider;
         }
 
         [HttpGet]
@@ -41,7 +44,7 @@ namespace MagicVilla_Web.Controllers
                 var principal = new ClaimsPrincipal(identity);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                HttpContext.Session.SetString(SD.AccessToken, model.AccessToken);
+                _tokenProvider.SetToken(model);
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -92,7 +95,7 @@ namespace MagicVilla_Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-            HttpContext.Session.SetString(SD.AccessToken, "");
+            _tokenProvider.ClearToken();
             return RedirectToAction("Index", "Home");
         }
 
