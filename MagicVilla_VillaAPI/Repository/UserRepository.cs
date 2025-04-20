@@ -114,7 +114,7 @@ namespace MagicVilla_VillaAPI.Repository
                      new Claim(JwtRegisteredClaimNames.Jti, jwtTokenId),
                      new Claim(JwtRegisteredClaimNames.Sub, user.Id)
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(2),
+                Expires = DateTime.UtcNow.AddMinutes(1),
                 SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -149,7 +149,7 @@ namespace MagicVilla_VillaAPI.Repository
             // When someone tries to use not valid refresh token, fraud possible
 
             // If just expired then mark as invalid and return empty
-            // ถ้าโทเคนยังไม่หมดอายุ ให้ส่งค่าว่างกลับไป
+            // ถ้าโทเคนหมดอายุ ให้ส่งค่าว่างกลับไป
             if (existingRefreshToken.ExpiresAt < DateTime.UtcNow)
             {
                 existingRefreshToken.IsValid = false;
@@ -207,7 +207,7 @@ namespace MagicVilla_VillaAPI.Repository
                 IsValid = true,
                 UserId = userId,
                 JwtTokenId = tokenId,
-                ExpiresAt = DateTime.UtcNow.AddDays(2),
+                ExpiresAt = DateTime.UtcNow.AddMinutes(1),
                 Refresh_Token = Guid.NewGuid() + "-" + Guid.NewGuid(),
             };
 
