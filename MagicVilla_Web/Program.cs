@@ -43,6 +43,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                     options.SlidingExpiration = true;
                 });
 
+builder.Services.AddScoped<IBaseService, BaseService>();
+builder.Services.AddScoped<ITokenProvider, TokenProvider>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
